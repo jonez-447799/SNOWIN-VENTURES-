@@ -226,6 +226,20 @@ export interface PlantWorkspaceCloudSnapshotData {
   updatedAt?: unknown;
 }
 
+export type NotePillar = (typeof ALLOWED_NOTE_PILLARS)[number];
+export type NoteActionStatus = (typeof ALLOWED_NOTE_STATUSES)[number];
+
+export interface WorkspaceAuditNoteData {
+  noteId: string;
+  workspaceId: string;
+  authorId: string;
+  pillar: NotePillar;
+  summaryText: string;
+  actionStatus: NoteActionStatus;
+  createdAt?: unknown;
+  updatedAt?: unknown;
+}
+
 export function sanitizeUserPublicProfileInput(input: {
   uid: string;
   displayName?: string | null;
@@ -645,3 +659,140 @@ export function subscribeToUserPilotRequests(
     }
   );
 }
+
+export function sanitizeWorkspaceAuditNoteInput(input: {
+  noteId?: string;
+  workspaceId: string;
+  authorId: string;
+  pillar?: string;
+  summaryText: string;
+  actionStatus?: string;
+}): Omit<WorkspaceAuditNoteData, 'createdAt' | 'updatedAt'> {
+  const noteId = sanitizeDocumentId(
+    input.noteId || `note_${Date.now()}`,
+    MAX_NOTE_ID_LENGTH
+  );
+  const workspaceId = sanitizeDocumentId(input.workspaceId, MAX_ID_LENGTH);
+  const authorId = sanitizeDocumentId(input.authorId, MAX_ID_LENGTH);
+  const pillar: NotePillar = ALLOWED_NOTE_PILLARS.includes(input.pillar as NotePillar)
+    ? (input.pillar as NotePillar)
+    : 'P1_INVENTORY';
+  const summaryText = clampString(
+    input.summaryText,
+    2,
+    MAX_SUMMARY_TEXT_LENGTH,
+    'Floor disposition note logged.'
+  );
+  const actionStatus: NoteActionStatus = ALLOWED_NOTE_STATUSES.includes(
+    input.actionStatus as NoteActionStatus
+  )
+    ? (input.actionStatus as NoteActionStatus)
+    : 'OPEN';
+
+  return {
+    noteId,
+    workspaceId,
+    authorId,
+    pillar,
+    summaryText,
+    actionStatus,
+  };
+}
+
+export async function createWorkspaceAuditNoteInFirestore(input: {
+  workspaceId: string;
+  pillar: NotePillar;
+  summaryText: string;
+}): Promise<WorkspaceAuditNoteData> {
+  const currentUser = auth.currentUser;
+  if (!currentUser?.uid) {
+    throw new Error('Sign in with Google to save floor audit notes.');
+  }
+
+  const sanitized = sanitizeWorkspaceAuditNoteInput({
+    noteId: `note_${Date.now()}`,
+    workspaceId: input.workspaceId,
+    authorId: currentUser.uid,
+    pillar: input.pillar,
+    summaryText: input.summaryText,
+    actionStatus: 'OPEN',
+  });
+
+  const path = `plant_workspaces/${sanitized.workspaceId}/audit_notes/${sanitized.noteId}`;
+  try {
+    const ref = doc(db, 'plant_workspaces', sanitized.workspaceId, 'audit_notes', sanitized.noteId);
+    await setDoc(ref, {
+      ...sanitized,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    });
+    return sanitized;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.CREATE, path);
+  }
+}
+
+export async function updateWorkspaceAuditNoteStatusInFirestore(params: {
+  workspaceId: string;
+  noteId: string;
+  summaryText: string;
+  actionStatus: NoteActionStatus;
+}): Promise<void> {
+  const safeWorkspaceId = sanitizeDocumentId(params.workspaceId, MAX_ID_LENGTH);
+  const safeNoteId = sanitizeDocumentId(params.noteId, MAX_NOTE_ID_LENGTH);
+  const safeSummary = clampString(
+    params.summaryText,
+    2,
+    MAX_SUMMARY_TEXT_LENGTH,
+    'Floor disposition note logged.'
+  );
+  const safeStatus: NoteActionStatus = ALLOWED_NOTE_STATUSES.includes(params.actionStatus)
+    ? params.actionStatus
+    : 'RESOLVED';
+
+  const path = `plant_workspaces/${safeWorkspaceId}/audit_notes/${safeNoteId}`;
+  try {
+    const ref = doc(db, 'plant_workspaces', safeWorkspaceId, 'audit_notes', safeNoteId);
+    await updateDoc(ref, {
+      summaryText: safeSummary,
+      actionStatus: safeStatus,
+      updatedAt: serverTimestamp(),
+    });
+  } catch (error) {
+    handleFirestoreError(error, OperationType.UPDATE, path);
+  }
+}
+
+export function subscribeToWorkspaceAuditNotes(
+  workspaceId: string,
+  uid: string,
+  onData: (items: WorkspaceAuditNoteData[]) => void,
+  onError?: (err: Error) => void
+): Unsubscribe {
+  const safeWorkspaceId = sanitizeDocumentId(workspaceId, MAX_ID_LENGTH);
+  const path = `plant_workspaces/${safeWorkspaceId}/audit_notes`;
+  const q = query(
+    collection(db, 'plant_workspaces', safeWorkspaceId, 'audit_notes'),
+    where('authorId', '==', uid)
+  );
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const records: WorkspaceAuditNoteData[] = [];
+      snapshot.forEach((docSnap) => {
+        records.push(docSnap.data() as WorkspaceAuditNoteData);
+      });
+      onData(records);
+    },
+    (error) => {
+      try {
+        handleFirestoreError(error, OperationType.LIST, path);
+      } catch (formattedErr) {
+        if (onError && formattedErr instanceof Error) {
+          onError(formattedErr);
+        }
+      }
+    }
+  );
+}
+

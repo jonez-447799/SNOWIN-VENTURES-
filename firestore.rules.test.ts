@@ -13,6 +13,7 @@ import {
   sanitizeUserPrivateInfoInput,
   sanitizePilotRequestInput,
   sanitizePlantWorkspaceInput,
+  sanitizeWorkspaceAuditNoteInput,
 } from './src/firebase';
 
 // ============================================================================
@@ -815,6 +816,19 @@ test('Valid authenticated operations and firebase-blueprint.json / firestore.rul
   assert.equal(ws.skuCount, 20);
   assert.equal(ws.nonMovingValueInr, 223110);
 
+  const note = sanitizeWorkspaceAuditNoteInput({
+    noteId: 'note$bad!01',
+    workspaceId: ws.workspaceId,
+    authorId: 'user_alpha_01',
+    pillar: 'INVALID_PILLAR',
+    summaryText: 'X'.repeat(700),
+    actionStatus: 'INVALID_STATUS',
+  });
+  assert.equal(VALID_ID_REGEX.test(note.noteId), true);
+  assert.equal(note.pillar, 'P1_INVENTORY');
+  assert.equal(note.summaryText.length, 500);
+  assert.equal(note.actionStatus, 'OPEN');
+
   // 4. Verify handleFirestoreError throws structured JSON matching FirestoreErrorInfo
   assert.throws(
     () => {
@@ -835,3 +849,4 @@ test('Valid authenticated operations and firebase-blueprint.json / firestore.rul
     }
   );
 });
+

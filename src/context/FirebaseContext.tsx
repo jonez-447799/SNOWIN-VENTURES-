@@ -17,13 +17,19 @@ import {
   signInWithGooglePopup,
   signOutFirebaseUser,
   syncPlantWorkspaceToFirestore,
+  deletePlantWorkspaceFromFirestore,
   syncPilotLeadToFirestore,
+  createWorkspaceAuditNoteInFirestore,
+  updateWorkspaceAuditNoteStatusInFirestore,
   subscribeToUserWorkspaces,
   subscribeToUserPilotRequests,
+  subscribeToWorkspaceAuditNotes,
   type UserPublicProfileData,
   type UserPrivateInfoData,
   type PlantWorkspaceCloudSnapshotData,
   type PilotRequestFirestoreData,
+  type WorkspaceAuditNoteData,
+  type NotePillar,
 } from '../firebase';
 import type { PlantId } from './PlantContext';
 
@@ -37,6 +43,7 @@ export interface FirebaseContextState {
   privateInfo: UserPrivateInfoData | null;
   syncedWorkspaces: PlantWorkspaceCloudSnapshotData[];
   syncedLeads: PilotRequestFirestoreData[];
+  auditNotes: WorkspaceAuditNoteData[];
   lastSyncedAt: string | null;
   syncing: boolean;
   errorMessage: string | null;
@@ -44,6 +51,17 @@ export interface FirebaseContextState {
   signInWithGoogle: () => Promise<void>;
   signOutUser: () => Promise<void>;
   syncActivePlant: (plantId: PlantId) => Promise<boolean>;
+  removeSyncedWorkspace: (workspaceId: string) => Promise<boolean>;
+  addAuditNote: (params: {
+    workspaceId: string;
+    pillar: NotePillar;
+    summaryText: string;
+  }) => Promise<boolean>;
+  resolveAuditNote: (params: {
+    workspaceId: string;
+    noteId: string;
+    summaryText: string;
+  }) => Promise<boolean>;
   syncLeadRecord: (lead: {
     leadId: string;
     fullName: string;
@@ -67,6 +85,7 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [privateInfo, setPrivateInfo] = useState<UserPrivateInfoData | null>(null);
   const [syncedWorkspaces, setSyncedWorkspaces] = useState<PlantWorkspaceCloudSnapshotData[]>([]);
   const [syncedLeads, setSyncedLeads] = useState<PilotRequestFirestoreData[]>([]);
+  const [auditNotes, setAuditNotes] = useState<WorkspaceAuditNoteData[]>([]);
   const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(null);
   const [syncing, setSyncing] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -82,9 +101,18 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         `https://console.firebase.google.com/project/${FIREBASE_PROJECT_ID}/firestore/databases/${FIRESTORE_DATABASE_ID}/data?openUpgradeDialog=true`
       );
       setErrorMessage(
-        'Firestore free tier daily quota exceeded. Quota resets the next day, or you can view Spark/Enterprise plan details in the Firebase Console.'
+        'Daily cloud storage quota reached. Quota resets tomorrow, or you can review plan details in the Firebase Console.'
       );
       return;
+    }
+    try {
+      const parsed = JSON.parse(rawMsg);
+      if (parsed && typeof parsed.error === 'string') {
+        setErrorMessage(parsed.error);
+        return;
+      }
+    } catch {
+      // Plain error message
     }
     setErrorMessage(rawMsg);
   }, []);
@@ -112,6 +140,7 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setPrivateInfo(null);
         setSyncedWorkspaces([]);
         setSyncedLeads([]);
+        setAuditNotes([]);
       }
     });
     return () => unsubAuth();
@@ -182,6 +211,26 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
   }, [authReady, user?.uid, inspectAndFormatError]);
 
+  // 4. Subscribe to floor audit notes for the primary synced workspace when available
+  const primaryWorkspaceId = syncedWorkspaces[0]?.workspaceId || null;
+  useEffect(() => {
+    if (!authReady || !user?.uid || !primaryWorkspaceId) {
+      setAuditNotes([]);
+      return;
+    }
+
+    const unsubNotes = subscribeToWorkspaceAuditNotes(
+      primaryWorkspaceId,
+      user.uid,
+      (notes) => {
+        setAuditNotes(notes);
+      },
+      (err) => inspectAndFormatError(err)
+    );
+
+    return () => unsubNotes();
+  }, [authReady, user?.uid, primaryWorkspaceId, inspectAndFormatError]);
+
   const signInWithGoogle = useCallback(async () => {
     setErrorMessage(null);
     setSyncing(true);
@@ -210,6 +259,73 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       setSyncing(true);
       try {
         await syncPlantWorkspaceToFirestore(plantId);
+        setLastSyncedAt(new Date().toISOString());
+        return true;
+      } catch (err) {
+        inspectAndFormatError(err);
+        return false;
+      } finally {
+        setSyncing(false);
+      }
+    },
+    [inspectAndFormatError]
+  );
+
+  const removeSyncedWorkspace = useCallback(
+    async (workspaceId: string): Promise<boolean> => {
+      setErrorMessage(null);
+      setSyncing(true);
+      try {
+        await deletePlantWorkspaceFromFirestore(workspaceId);
+        setLastSyncedAt(new Date().toISOString());
+        return true;
+      } catch (err) {
+        inspectAndFormatError(err);
+        return false;
+      } finally {
+        setSyncing(false);
+      }
+    },
+    [inspectAndFormatError]
+  );
+
+  const addAuditNote = useCallback(
+    async (params: {
+      workspaceId: string;
+      pillar: NotePillar;
+      summaryText: string;
+    }): Promise<boolean> => {
+      setErrorMessage(null);
+      setSyncing(true);
+      try {
+        await createWorkspaceAuditNoteInFirestore(params);
+        setLastSyncedAt(new Date().toISOString());
+        return true;
+      } catch (err) {
+        inspectAndFormatError(err);
+        return false;
+      } finally {
+        setSyncing(false);
+      }
+    },
+    [inspectAndFormatError]
+  );
+
+  const resolveAuditNote = useCallback(
+    async (params: {
+      workspaceId: string;
+      noteId: string;
+      summaryText: string;
+    }): Promise<boolean> => {
+      setErrorMessage(null);
+      setSyncing(true);
+      try {
+        await updateWorkspaceAuditNoteStatusInFirestore({
+          workspaceId: params.workspaceId,
+          noteId: params.noteId,
+          summaryText: params.summaryText,
+          actionStatus: 'RESOLVED',
+        });
         setLastSyncedAt(new Date().toISOString());
         return true;
       } catch (err) {
@@ -266,6 +382,7 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         privateInfo,
         syncedWorkspaces,
         syncedLeads,
+        auditNotes,
         lastSyncedAt,
         syncing,
         errorMessage,
@@ -273,6 +390,9 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         signInWithGoogle,
         signOutUser,
         syncActivePlant,
+        removeSyncedWorkspace,
+        addAuditNote,
+        resolveAuditNote,
         syncLeadRecord,
         clearError,
       }}
