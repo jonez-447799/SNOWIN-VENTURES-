@@ -1,0 +1,369 @@
+{
+  "entities": {
+    "UserPublicProfile": {
+      "title": "UserPublicProfile",
+      "description": "Publicly readable operational profile for an authenticated manufacturing user without PII.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the plant reviewer or executive.",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "companyName": {
+          "type": "string",
+          "description": "Manufacturing organization or plant unit name.",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "role": {
+          "type": "string",
+          "description": "Operational role within the plant workspace (self-assigned non-privileged role).",
+          "enum": ["owner", "ops_head", "auditor", "viewer"],
+          "maxLength": 32
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the profile was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the profile was last updated."
+        }
+      },
+      "required": ["uid", "displayName", "companyName", "role", "createdAt", "updatedAt"]
+    },
+    "UserPrivateInfo": {
+      "title": "UserPrivateInfo",
+      "description": "Strictly isolated PII record (email, phone/WhatsApp, plant address) accessible only to the owner or founder admin.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID matching the parent user document.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Verified work email address.",
+          "minLength": 3,
+          "maxLength": 180
+        },
+        "phoneOrWhatsapp": {
+          "type": "string",
+          "description": "Optional WhatsApp or direct contact number.",
+          "minLength": 0,
+          "maxLength": 40
+        },
+        "plantLocation": {
+          "type": "string",
+          "description": "Industrial estate or city location.",
+          "minLength": 0,
+          "maxLength": 160
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the latest PII update."
+        }
+      },
+      "required": ["uid", "email", "updatedAt"]
+    },
+    "PilotRequestDoc": {
+      "title": "PilotRequestDoc",
+      "description": "Pilot Factory Inventory Audit request synced to Firestore with owner isolation and founder admin access.",
+      "type": "object",
+      "properties": {
+        "leadId": {
+          "type": "string",
+          "description": "Canonical pilot request ID (e.g., PILOT-20261111-ABCD).",
+          "minLength": 3,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "UID of the authenticated user who created or synced the pilot request.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "fullName": {
+          "type": "string",
+          "description": "Executive or operations lead name.",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "companyName": {
+          "type": "string",
+          "description": "Manufacturing company name.",
+          "minLength": 2,
+          "maxLength": 160
+        },
+        "plantLocation": {
+          "type": "string",
+          "description": "Plant industrial cluster or city.",
+          "minLength": 2,
+          "maxLength": 160
+        },
+        "erpSystem": {
+          "type": "string",
+          "description": "Current ERP or accounting system (Tally Prime, SAP, Busy, Excel).",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "status": {
+          "type": "string",
+          "description": "Lifecycle status of the pilot audit request. CLOSED is a terminal state.",
+          "enum": ["NEW", "SUITABILITY_REVIEW", "NDA_SENT", "APPROVED_FOR_UPLOAD", "CLOSED"],
+          "maxLength": 32
+        },
+        "diagnosticScore": {
+          "type": "number",
+          "description": "Self-assessment or diagnostic readiness score (0 to 100)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Immutable creation server timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Latest update server timestamp."
+        }
+      },
+      "required": [
+        "leadId",
+        "ownerId",
+        "fullName",
+        "companyName",
+        "plantLocation",
+        "erpSystem",
+        "status",
+        "diagnosticScore",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PlantWorkspaceCloudSnapshot": {
+      "title": "PlantWorkspaceCloudSnapshot",
+      "description": "4-Pillar factory KPI snapshot persisted in Firestore for cross-device executive review.",
+      "type": "object",
+      "properties": {
+        "workspaceId": {
+          "type": "string",
+          "description": "Unique workspace identifier.",
+          "minLength": 2,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "UID of the workspace owner.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "plantId": {
+          "type": "string",
+          "description": "Canonical plant identifier.",
+          "enum": ["ambattur", "sriperumbudur", "hosur"],
+          "maxLength": 32
+        },
+        "plantName": {
+          "type": "string",
+          "description": "Human-readable plant unit name.",
+          "minLength": 2,
+          "maxLength": 160
+        },
+        "skuCount": {
+          "type": "number",
+          "description": "Total active SKUs in the snapshot."
+        },
+        "totalStockValueInr": {
+          "type": "number",
+          "description": "Total inventory valuation in INR."
+        },
+        "nonMovingValueInr": {
+          "type": "number",
+          "description": "Non-moving inventory valuation (>=180 days idle) in INR."
+        },
+        "otifPercent": {
+          "type": "number",
+          "description": "Dual-gate dispatch OTIF percentage (0 to 100)."
+        },
+        "freightLeakInr": {
+          "type": "number",
+          "description": "Flagged freight rate & detention leakage in INR."
+        },
+        "binMatchPercent": {
+          "type": "number",
+          "description": "Warehouse bin card vs physical count accuracy percentage (0 to 100)."
+        },
+        "status": {
+          "type": "string",
+          "description": "Workspace state; LOCKED_FINAL is a terminal immutable state.",
+          "enum": ["ACTIVE", "LOCKED_FINAL"],
+          "maxLength": 32
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Immutable creation server timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Latest update server timestamp."
+        }
+      },
+      "required": [
+        "workspaceId",
+        "ownerId",
+        "plantId",
+        "plantName",
+        "skuCount",
+        "totalStockValueInr",
+        "nonMovingValueInr",
+        "otifPercent",
+        "freightLeakInr",
+        "binMatchPercent",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "WorkspaceAuditNote": {
+      "title": "WorkspaceAuditNote",
+      "description": "Sub-collection floor investigation note under a plant workspace, protected by the Master Gate parent lookup.",
+      "type": "object",
+      "properties": {
+        "noteId": {
+          "type": "string",
+          "description": "Unique audit note identifier.",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "workspaceId": {
+          "type": "string",
+          "description": "Parent workspace identifier.",
+          "minLength": 2,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "authorId": {
+          "type": "string",
+          "description": "UID of the note author (must match parent workspace owner or admin).",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "pillar": {
+          "type": "string",
+          "description": "Audit pillar category.",
+          "enum": ["P1_INVENTORY", "P2_OTIF", "P3_FREIGHT", "P4_WAREHOUSE", "EXECUTIVE"],
+          "maxLength": 32
+        },
+        "summaryText": {
+          "type": "string",
+          "description": "Actionable floor observation or disposition note.",
+          "minLength": 2,
+          "maxLength": 500
+        },
+        "actionStatus": {
+          "type": "string",
+          "description": "Investigation status; RESOLVED is a terminal state.",
+          "enum": ["OPEN", "IN_REVIEW", "RESOLVED"],
+          "maxLength": 32
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Immutable creation server timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Latest update server timestamp."
+        }
+      },
+      "required": [
+        "noteId",
+        "workspaceId",
+        "authorId",
+        "pillar",
+        "summaryText",
+        "actionStatus",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Read-only administrative registry entry for role verification.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Admin user UID.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "role": {
+          "type": "string",
+          "description": "Admin privilege tier.",
+          "enum": ["founder_admin"],
+          "maxLength": 32
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp."
+        }
+      },
+      "required": ["uid", "role", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserPublicProfile" },
+      "description": "Public operational user profile (non-PII)."
+    },
+    "/users/{userId}/private/{docId}": {
+      "schema": { "$ref": "#/entities/UserPrivateInfo" },
+      "description": "Split-collection PII vault (email, phone/WhatsApp, plant location) isolated to owner or admin."
+    },
+    "/pilot_requests/{leadId}": {
+      "schema": { "$ref": "#/entities/PilotRequestDoc" },
+      "description": "Cloud-synced pilot factory audit requests."
+    },
+    "/plant_workspaces/{workspaceId}": {
+      "schema": { "$ref": "#/entities/PlantWorkspaceCloudSnapshot" },
+      "description": "Cloud-synced 4-pillar plant workspace KPI snapshots."
+    },
+    "/plant_workspaces/{workspaceId}/audit_notes/{noteId}": {
+      "schema": { "$ref": "#/entities/WorkspaceAuditNote" },
+      "description": "Sub-collection of floor investigation notes gated by parent plant workspace ownership."
+    },
+    "/admins/{adminUid}": {
+      "schema": { "$ref": "#/entities/AdminRecord" },
+      "description": "Trusted admin lookup collection."
+    }
+  }
+}

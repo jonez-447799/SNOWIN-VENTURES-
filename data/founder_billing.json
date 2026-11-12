@@ -1,0 +1,17 @@
+{
+  "config": {
+    "beneficiaryName": "C. Jones Snowin (Operationalyst / Snowin Ventures)",
+    "upiId": "9080540047@yespop",
+    "bankName": "HDFC / ICICI / Indian Bank (Configure in Billing Settings)",
+    "accountNumber": "Configure in Founder Billing Settings",
+    "ifscCode": "Configure in Founder Billing Settings",
+    "udyamMsmeNumber": "UDYAM-TN-02-XXXXXXX (Configure in Billing Settings)",
+    "gstinOptional": "",
+    "razorpayPaymentLinkTier2": "https://rzp.io/l/operationalyst-audit",
+    "razorpayPaymentLinkTier3": "",
+    "tier2FullAuditPriceInr": 14999,
+    "tier3MonthlyRetainerInr": 24999,
+    "updatedAt": "2026-10-26T09:00:00.000Z"
+  },
+  "invoices": []
+}

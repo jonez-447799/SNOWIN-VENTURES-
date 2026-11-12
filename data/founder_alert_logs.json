@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "logs": [
+    {
+      "alertId": "ALERT-20261110-DF05",
+      "timestamp": "2026-11-10T08:15:03.044Z",
+      "eventType": "CLIENT_FILE_UPLOADED",
+      "title": "[STEP-2 ERP FILE INGESTED] Sriperumbudur CNC Castings Pvt Ltd (2 SKUs)",
+      "summary": "Step-2 ERP export ingested for Sriperumbudur CNC Castings Pvt Ltd (Lead PILOT-20261110-6CA7 → Snapshot AUDIT-20261110-DFB5). Row Count: 2, Non-Moving (>180d) Exposure: ₹1,74,000, Quarantined Rows: 0. View snapshot: ?view=pilot-findings&id=AUDIT-20261110-DFB5&token=ec30f2ef9f6c854a1931353e",
+      "companyName": "Sriperumbudur CNC Castings Pvt Ltd",
+      "leadId": "PILOT-20261110-6CA7",
+      "workspaceId": "AUDIT-20261110-DFB5",
+      "upiId": "9080540047@yespop",
+      "actionUrl": "?view=pilot-findings&id=AUDIT-20261110-DFB5&token=ec30f2ef9f6c854a1931353e",
+      "recipientEmail": "joneszz2004@gmail.com",
+      "webhookConfigured": false,
+      "emailStatus": "SKIPPED_NOT_CONFIGURED",
+      "webhookStatus": "SKIPPED_NOT_CONFIGURED",
+      "overallStatus": "SKIPPED_NOT_CONFIGURED"
+    },
+    {
+      "alertId": "ALERT-20261110-D437",
+      "timestamp": "2026-11-10T05:21:39.120Z",
+      "eventType": "TEST_PAYMENT_ALERT",
+      "title": "[TEST UTR PAYMENT ALERT] ₹14,999 Submitted — Ambattur Precision Forge (Founder Test Payment Alert)",
+      "summary": "UTR TESTUTR9080540047 submitted for AUDIT-DEMO-P1P4 (₹14,999 to UPI 9080540047@yespop). Verify bank credit in Agent Workforce to unlock client walkthrough.",
+      "companyName": "Ambattur Precision Forge (Founder Test Payment Alert)",
+      "workspaceId": "AUDIT-DEMO-P1P4",
+      "utrNumber": "TESTUTR9080540047",
+      "amountInr": 14999,
+      "upiId": "9080540047@yespop",
+      "recipientEmail": "joneszz2004@gmail.com",
+      "webhookConfigured": false,
+      "emailStatus": "SKIPPED_NOT_CONFIGURED",
+      "webhookStatus": "SKIPPED_NOT_CONFIGURED",
+      "overallStatus": "SKIPPED_NOT_CONFIGURED"
+    }
+  ]
+}

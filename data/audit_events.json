@@ -1,0 +1,76 @@
+[
+  {
+    "eventId": "EVT-20261109-394C",
+    "timestamp": "2026-11-09T14:20:25.327Z",
+    "actor": "Ambattur Fabrication Sample Plant (20-SKU Sandbox) (Walkthrough Client)",
+    "category": "PILOT_WALKTHROUGH",
+    "action": "UTR_PAYMENT_SUBMITTED",
+    "details": "Submitted UTR 431298765432 for workspace AUDIT-DEMO-P1P4 (TIER2_FULL_AUDIT · ₹14999)"
+  },
+  {
+    "eventId": "EVT-20261109-0249",
+    "timestamp": "2026-11-09T14:20:16.189Z",
+    "actor": "C. Jones Snowin (CEO Orchestrator)",
+    "category": "GOVERNANCE",
+    "action": "CEO_REVENUE_GOAL_DECOMPOSED",
+    "details": "Decomposed revenue goal 'Close 5 Paid Plant Audits in Chennai This Month — ₹74,995 Target (5 × ₹14,999 Direct Bank / UPI Collection)' (GOAL-20261109-1250) into 5 deterministic agent tasks (₹0.00 token spend)."
+  },
+  {
+    "eventId": "EVT-20261108-F586",
+    "timestamp": "2026-11-08T11:22:57.948Z",
+    "actor": "Vikram Deshmukh (GM Operations) (Deshmukh Precision Forgings)",
+    "category": "LEAD_FUNNEL",
+    "action": "PILOT_LEAD_CREATED",
+    "details": "Captured pilot request PILOT-20261108-30A5 for Deshmukh Precision Forgings (Manufacturing Unit (Express Intake))"
+  },
+  {
+    "eventId": "EVT-20261108-11EC",
+    "timestamp": "2026-11-08T09:19:38.671Z",
+    "actor": "CLIENT_WALKTHROUGH",
+    "category": "GOVERNANCE",
+    "action": "RETENTION_EXTENDED",
+    "details": "Extended retention window by +30 days on AUDIT-DEMO-P1P4 until 2026-12-22."
+  },
+  {
+    "eventId": "EVT-20261108-E874",
+    "timestamp": "2026-11-08T04:37:17.280Z",
+    "actor": "C. Jones Snowin",
+    "category": "GOVERNANCE",
+    "action": "VERIFIED_PROOF_REMOVED",
+    "details": "Removed Verified Proof PROOF-20261108-0753 (linked to AUDIT-20261107-9A52) from public registry."
+  },
+  {
+    "eventId": "EVT-20261108-91B2",
+    "timestamp": "2026-11-08T04:37:17.173Z",
+    "actor": "C. Jones Snowin",
+    "category": "GOVERNANCE",
+    "action": "VERIFIED_PROOF_PUBLISHED",
+    "details": "Published Verified Proof PROOF-20261108-0753 bound to snapshot AUDIT-20261107-9A52 (SHA-256 prefix: 6ca0c45823bd2b70, Dead Stock: ₹9,00,860)."
+  },
+  {
+    "eventId": "EVT-20261107-00D8",
+    "timestamp": "2026-11-07T10:44:03.603Z",
+    "actor": "Ambattur Precision Forge & Valves Pvt Ltd (Step-2 Demo Sandbox)",
+    "category": "PILOT_WALKTHROUGH",
+    "action": "PILOT_DATA_INGESTED",
+    "plantId": "ambattur",
+    "details": "Ingested 25/29 valid rows (4 quarantined) under IMPRUN-20261107-B521 (SHA-256: 6ca0c45823bd...) -> Snapshot AUDIT-20261107-9A52"
+  },
+  {
+    "eventId": "EVT-20261107-C175",
+    "timestamp": "2026-11-07T07:37:27.639Z",
+    "actor": "C. Jones Snowin (Founder Admin)",
+    "category": "LEAD_FUNNEL",
+    "action": "PILOT_LEAD_SNAPSHOT_LINKED",
+    "plantId": "sriperumbudur",
+    "details": "Updated lead PILOT-20261107-8C1C (Sundaram Forging Pvt Ltd) -> status=NEW, linkedSnapshot=AUDIT-20261107-AA82"
+  },
+  {
+    "eventId": "EVT-20261107-76CA",
+    "timestamp": "2026-11-07T07:35:59.200Z",
+    "actor": "C. Jones Snowin (Founder Admin)",
+    "category": "PILOT_WALKTHROUGH",
+    "action": "WALKTHROUGH_SNAPSHOT_PUBLISHED",
+    "details": "Published 4-pillar walkthrough snapshot AUDIT-20261107-AA82 for Sriperumbudur Press & Machining (Sriperumbudur Auto Corridor, Chennai (TN)) · 16 SKUs"
+  }
+]

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://operationalyst.in/sitemap.xml

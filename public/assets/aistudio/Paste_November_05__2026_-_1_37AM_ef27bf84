@@ -1,0 +1,1370 @@
+You are a senior enterprise product designer, behavioral UX specialist,
+manufacturing-operations analyst, information architect, accessibility expert,
+data-visualization designer and frontend engineer.
+
+TASK
+
+Redesign the existing Operationalyst application dashboard into a clear,
+decision-oriented manufacturing intelligence product.
+
+Do not redesign the public marketing homepage in this task.
+
+Do not remove, delete, weaken or break any existing analytical functionality,
+calculations, datasets, routes, imports, exports, reports, tools or modules.
+
+The goal is to restructure and redesign the existing application so that:
+
+1. Executives immediately see what requires attention.
+2. Managers can understand why it is happening.
+3. Analysts can inspect the supporting records and calculations.
+4. Every major insight leads to a clear investigation or action.
+5. The interface feels premium, controlled, explainable and trustworthy.
+6. Existing P1-P5 analytical depth remains available.
+7. First-time users are not overwhelmed by the entire system.
+
+FIRST: INSPECT THE EXISTING PROJECT
+
+Before changing files:
+
+1. Identify the framework, routing structure and styling approach.
+2. Identify all dashboard routes and sections.
+3. Identify the current P1-P5 modules.
+4. Identify shared components, charts, tables, forms and calculation logic.
+5. Identify import, export, print and PDF functions.
+6. Identify role-based or special views such as Executive, Dispatch Desk and
+   Gate Kiosk.
+7. Identify any demo data, customer names and generated metrics.
+8. Document the existing functionality before modifying the interface.
+9. Preserve all underlying calculations unless a genuine implementation error
+   is discovered.
+10. Do not replace real business logic with static mockups.
+
+CURRENT PRODUCT PROBLEM
+
+The current dashboard exposes too much internal system architecture at once.
+
+The existing interface includes concepts such as:
+
+- CEO Master & Roadmap
+- P1 Cash Recovery
+- P2 Promise OTIF
+- P3 Profit Protection
+- P4 Warehouse Trust
+- P5 CEO Briefing
+- Smart Tally Import
+- Device & Client Sync
+- Security & Audit
+- Executive
+- Dispatch Desk
+- Gate Kiosk
+- Excel Import
+- R&D & QA Lab
+- Sales & Tools
+- CFO ROI
+- What-If
+- 8D CAPA
+- Pipeline
+
+This demonstrates product depth, but it creates excessive cognitive load for
+first-time and executive users.
+
+The redesigned dashboard must not begin by showing everything the system knows.
+
+It must begin by answering:
+
+- What requires attention?
+- Why does it matter?
+- What changed?
+- What is causing it?
+- What should the user investigate next?
+- What evidence supports the finding?
+
+CORE PRODUCT PRINCIPLE
+
+Transform the dashboard from:
+
+"Here is everything Operationalyst knows."
+
+Into:
+
+"Here is what requires attention today, why it matters, and where to
+investigate."
+
+INFORMATION MODEL
+
+Organize the product into three levels.
+
+LEVEL 1: EXECUTIVE
+
+Purpose:
+What requires attention?
+
+Show:
+
+- Overall operational status
+- Critical issues
+- Financial or operational exposure
+- KPI movement
+- Priority actions
+- Recent changes
+- Decision-ready summaries
+
+LEVEL 2: MANAGER
+
+Purpose:
+Why is this happening?
+
+Show:
+
+- Root causes
+- Team/process ownership
+- Category breakdowns
+- Trends
+- Exceptions
+- Targets versus actuals
+- Recommended investigations
+- Relevant operational context
+
+LEVEL 3: ANALYST
+
+Purpose:
+What evidence supports it?
+
+Show:
+
+- Raw records
+- Calculations
+- Definitions
+- Applied filters
+- Source timestamps
+- Movement history
+- Failure logic
+- Detailed tables
+- Export controls
+- Data-quality warnings
+- Audit history
+
+Every major KPI must allow the user to move from:
+
+Signal
+→ impact
+→ explanation
+→ evidence
+→ investigation
+→ action
+
+NAVIGATION REDESIGN
+
+Replace P1-P5 as the primary user-facing navigation.
+
+Preserve P1-P5 codes internally and show them as secondary labels where useful.
+
+Use this primary navigation:
+
+1. Overview
+2. Inventory
+3. Delivery
+4. Profit & Risk
+5. Warehouse
+6. Executive Reports
+7. Data & Imports
+8. Actions
+9. Administration
+
+Map existing modules as follows:
+
+P1 Cash Recovery
+→ Inventory
+Secondary label:
+"P1 • Cash Recovery"
+
+P2 Promise OTIF
+→ Delivery
+Secondary label:
+"P2 • Customer Promise"
+
+P3 Profit Protection
+→ Profit & Risk
+Secondary label:
+"P3 • Profit Protection"
+
+P4 Warehouse Trust
+→ Warehouse
+Secondary label:
+"P4 • Warehouse Trust"
+
+P5 CEO Briefing
+→ Executive Reports
+Secondary label:
+"P5 • CEO Briefing"
+
+Smart Tally Import and Excel Import
+→ Data & Imports
+
+8D CAPA, priority actions and investigation queues
+→ Actions
+
+Security & Audit, client lock, access, sync and settings
+→ Administration
+
+CFO ROI and What-If
+→ Profit & Risk, with optional relevant links from Overview
+
+Pipeline and Sales tools
+→ Profit & Risk or a separate Commercial section only if the existing project
+already treats them as a distinct operational domain.
+
+Do not expose internal product architecture more prominently than user goals.
+
+GLOBAL APPLICATION SHELL
+
+Create a consistent product shell containing:
+
+Desktop:
+- Collapsible left navigation
+- Compact top bar
+- Main content workspace
+- Optional right-side context/action drawer
+
+Mobile:
+- Accessible menu drawer
+- Simplified workspace
+- No horizontal application-level scrolling
+- Priority summaries before large tables
+
+LEFT NAVIGATION
+
+Top:
+- Operationalyst wordmark
+- Current organization
+- Current factory/unit selector
+- Environment label, such as DEMO, PILOT or LIVE
+
+Primary navigation:
+- Overview
+- Inventory
+- Delivery
+- Profit & Risk
+- Warehouse
+- Executive Reports
+- Data & Imports
+- Actions
+
+Bottom:
+- Administration
+- Methodology
+- Help
+- User profile
+
+Use icons only with visible labels.
+
+Do not rely on icons alone.
+
+Allow the navigation to collapse on desktop while preserving tooltips and
+accessible names.
+
+TOP BAR
+
+Include:
+
+- Page title
+- Current factory/unit
+- Reporting period
+- Last data refresh
+- Global search
+- Notifications or issue count
+- Contextual primary action
+- User/account control
+
+Do not overload the top bar with every product function.
+
+DEMO ENVIRONMENT LABELING
+
+If the application uses demonstration or synthetic information, display a
+prominent persistent label:
+
+"DEMONSTRATION ENVIRONMENT"
+
+Supporting text:
+
+"Figures and records shown in this environment are illustrative and do not
+represent a verified customer result."
+
+Place the label:
+
+- In the application shell
+- Near executive metrics
+- On exported demonstration reports
+- On printed demonstration reports
+
+Do not show a fictional company as though it is a genuine customer.
+
+If a fictional organization is needed for demonstration, label it:
+
+"Illustrative Manufacturing Company"
+
+EXECUTIVE OVERVIEW
+
+Create a redesigned default landing screen named:
+
+"Executive Overview"
+
+The first viewport must answer:
+
+1. What needs attention?
+2. What changed?
+3. Where should management investigate?
+4. When was the data last refreshed?
+
+PAGE HEADER
+
+Title:
+"Executive Overview"
+
+Supporting copy:
+"Operational priorities, exceptions and performance signals for the selected
+reporting period."
+
+Controls:
+- Factory/unit selector
+- Reporting period
+- Compare period
+- Export executive brief
+- Last refreshed timestamp
+
+If showing demonstration data, place the demonstration label directly beneath
+the header.
+
+PRIMARY STATUS AREA
+
+Create a calm, high-contrast priority summary.
+
+Heading:
+"Three Areas Require Attention"
+
+The number must be generated from actual active conditions, not hardcoded.
+
+Show a maximum of three priority cards in the opening viewport.
+
+Example structure:
+
+PRIORITY 01
+
+Delivery reliability
+
+Current:
+50% Gate OTIF
+
+Target:
+60% management threshold
+
+Change:
+Up or down versus the defined comparison period
+
+Why it matters:
+"Nine of eighteen dispatch lines passed both the on-time and in-full rules."
+
+Primary action:
+"Understand delivery failures"
+
+Secondary link:
+"View supporting records"
+
+PRIORITY 02
+
+Inventory exposure
+
+Current:
+Use existing P1 analysis
+
+Why it matters:
+Summarize the financial or operational relevance without unsupported claims.
+
+Primary action:
+"Investigate inventory"
+
+PRIORITY 03
+
+Warehouse control
+
+Current:
+Use existing P4 indicators
+
+Why it matters:
+Summarize exceptions or control issues.
+
+Primary action:
+"Review warehouse exceptions"
+
+DO NOT:
+
+- Show ten equal-priority cards
+- Use red for every negative metric
+- Show unexplained scores
+- Place secondary tools above critical issues
+- Use unsupported financial-recovery language
+
+EXECUTIVE KPI STRIP
+
+Below the priority area, show no more than five primary KPI cards.
+
+Recommended:
+
+1. Inventory requiring review
+2. Gate OTIF
+3. Profit or margin exposure
+4. Warehouse control status
+5. Open priority actions
+
+Each KPI card must contain:
+
+- Plain-language name
+- Current value
+- Target or reference value
+- Direction of change
+- Reporting period
+- One-sentence interpretation
+- Drill-down action
+
+Avoid showing percentages without denominators.
+
+For example:
+
+Do not show only:
+"50% OTIF"
+
+Show:
+"50% Gate OTIF • 9 of 18 dispatch lines passed"
+
+EXCEPTION-FIRST DESIGN
+
+After the KPI strip, create:
+
+"Priority Investigation Queue"
+
+Columns/cards:
+
+- Priority
+- Domain
+- Signal
+- Why it matters
+- Evidence count
+- Owner
+- Status
+- Recommended next investigation
+- Action
+
+Sort by actual priority logic.
+
+Allow filtering by:
+
+- Critical
+- Requires attention
+- Monitoring
+- Resolved
+
+Do not label every item critical.
+
+Use severity consistently:
+
+Neutral:
+Informational or stable
+
+Green:
+Verified positive state or target achieved
+
+Amber:
+Requires review or investigation
+
+Red:
+Critical threshold breached or immediate attention required
+
+Grey:
+Unavailable, incomplete or not yet assessed
+
+TREND SECTION
+
+Heading:
+"What Changed?"
+
+Show carefully selected trends rather than every chart.
+
+Recommended components:
+
+- Performance versus target
+- Current period versus previous period
+- Significant increases or decreases
+- Volume context
+- Data-quality changes
+
+Charts must include:
+
+- Descriptive title
+- Date range
+- Target/reference line
+- Unit of measurement
+- Accessible legend
+- Tooltip
+- Written interpretation
+- Data source/context
+- Empty-state handling
+
+Avoid dual axes unless essential.
+
+If dual axes are preserved, explain both scales clearly.
+
+Do not use decorative 3D charts.
+
+EXECUTIVE NARRATIVE
+
+Add an auto-generated or rule-based briefing section:
+
+"Executive Brief"
+
+Structure:
+
+1. Current state
+2. Important change
+3. Likely operational driver
+4. Priority investigation
+5. Data limitation, if applicable
+
+Example:
+
+"Gate OTIF is 50%, with 9 of 18 dispatch lines passing both delivery conditions.
+The result is below the configured 60% management threshold. Late-only failures
+represent the largest recorded failure category in the selected period. Review
+the affected dispatch records and recorded causes before assigning corrective
+actions."
+
+The narrative must be generated from existing verified product data.
+
+Do not use invented causal claims.
+
+Use:
+"Recorded cause"
+"Associated with"
+"Requires investigation"
+
+Avoid:
+"Caused by"
+
+unless the data genuinely establishes causation.
+
+DOMAIN PAGE TEMPLATE
+
+Use a consistent pattern for Inventory, Delivery, Profit & Risk and Warehouse.
+
+Every domain page should follow this order:
+
+1. Domain status
+2. Current priority
+3. Business relevance
+4. Key indicators
+5. Trend
+6. Root-cause or category breakdown
+7. Priority records
+8. Recommended investigation
+9. Supporting evidence
+10. Methodology and definitions
+
+Do not invent a unique layout for every module.
+
+Consistency reduces learning effort.
+
+INVENTORY PAGE
+
+Primary title:
+"Inventory"
+
+Secondary label:
+"P1 • Cash Recovery"
+
+Opening question:
+"Which inventory requires attention?"
+
+Required sections:
+
+1. Inventory status
+2. Non-moving stock under the selected definition
+3. Slow-moving inventory
+4. Inventory ageing
+5. High-value concentration
+6. Priority SKUs/categories
+7. Movement history
+8. Data-quality status
+9. Investigation queue
+10. Methodology
+
+Every classification must show:
+
+- Applied definition
+- Reporting period
+- Relevant date fields
+- Value basis
+- Included/excluded records
+- Data limitations
+
+Do not automatically label inventory as recoverable cash.
+
+Use:
+"Inventory requiring review"
+"Potentially non-moving under the selected definition"
+"Value associated with selected criteria"
+
+DELIVERY PAGE
+
+Primary title:
+"Delivery"
+
+Secondary label:
+"P2 • Customer Promise"
+
+Opening question:
+"Which commitments are at risk or failing?"
+
+Preserve the existing Gate OTIF logic and explainability.
+
+Primary summary:
+
+- Gate OTIF
+- Passed dispatch lines
+- Failed dispatch lines
+- Management threshold
+- OEM/customer target if configured
+- Current movement versus previous period
+
+Keep the strongest explainability feature:
+
+"The Dual-Gate Rule"
+
+Present it in a cleaner explanation panel:
+
+A dispatch line passes only if:
+
+1. It departed by the promised cutoff.
+2. The required quantity was fulfilled according to the configured rule.
+
+Show:
+
+- Late only
+- Short only
+- Late and short
+- Passed both rules
+
+Allow the user to click each category and see supporting dispatch records.
+
+Rename technical or dramatic headings where useful.
+
+For example:
+
+"Why Nine Dispatch Lines Failed"
+
+Main label:
+"Failure explanation"
+
+Secondary methodology label:
+"Dual-Gate Rule"
+
+Create sections:
+
+1. Current delivery status
+2. Failure explanation
+3. Customer/order exposure
+4. Root-cause categories
+5. Trends
+6. Priority dispatches
+7. Corrective actions
+8. Supporting records
+9. Rules and definitions
+
+PROFIT & RISK PAGE
+
+Primary title:
+"Profit & Risk"
+
+Secondary label:
+"P3 • Profit Protection"
+
+Opening question:
+"Which operational risks may affect financial performance?"
+
+Include existing:
+
+- CFO ROI
+- What-If
+- Relevant exposure calculations
+- Commercial risk indicators
+- Scenario analysis
+
+Clearly differentiate:
+
+- Verified actual value
+- Calculated estimate
+- Scenario output
+- Assumption
+- User-entered value
+
+Never display a scenario result as a confirmed financial result.
+
+Use visible labels:
+
+"Actual"
+"Estimate"
+"Scenario"
+"Assumption"
+
+WAREHOUSE PAGE
+
+Primary title:
+"Warehouse"
+
+Secondary label:
+"P4 • Warehouse Trust"
+
+Opening question:
+"Which warehouse records or controls require verification?"
+
+Include:
+
+- Inventory accuracy or reconciliation indicators
+- Exceptions
+- Missing or conflicting records
+- Location/category issues
+- Recent changes
+- Investigation queue
+- Relevant evidence
+- Corrective actions
+
+Avoid calling a warehouse untrustworthy based on a single signal.
+
+Use:
+"Control status"
+"Exception status"
+"Requires verification"
+
+EXECUTIVE REPORTS PAGE
+
+Primary title:
+"Executive Reports"
+
+Secondary label:
+"P5 • CEO Briefing"
+
+Create report types:
+
+- Executive overview
+- Inventory review
+- Delivery review
+- Profit and risk review
+- Warehouse control review
+- Priority action report
+
+Every report preview must include:
+
+- Organization/factory
+- Reporting period
+- Data refresh time
+- Definitions
+- Data-quality notes
+- Demonstration label, if applicable
+- Methodology reference
+
+Preserve PDF and print functionality.
+
+Make exported reports visually consistent with the redesigned application.
+
+ACTIONS PAGE
+
+Create a unified operational action system.
+
+Heading:
+"Actions"
+
+Tabs:
+
+- Open
+- In progress
+- Awaiting verification
+- Resolved
+- All
+
+Each action should include:
+
+- Action title
+- Related signal
+- Domain
+- Priority
+- Owner
+- Due date
+- Status
+- Evidence link
+- Notes
+- Verification requirement
+
+Connect existing 8D CAPA functionality here.
+
+Do not create fake user assignments.
+
+DATA & IMPORTS PAGE
+
+Combine:
+
+- Excel Import
+- Smart Tally Import
+- Data-source status
+- Import history
+- Validation errors
+- Field mapping
+- Data-quality summary
+
+Import journey:
+
+1. Select data type
+2. Upload file
+3. Validate structure
+4. Map fields
+5. Review warnings
+6. Confirm import
+7. View processing result
+
+Never silently reject or modify records.
+
+Clearly show:
+
+- Accepted records
+- Rejected records
+- Warning records
+- Duplicate records
+- Missing required fields
+- Next actions
+
+Provide downloadable error details if the existing stack supports it.
+
+CONTEXTUAL RIGHT-SIDE DRAWER
+
+Create an optional detail drawer for:
+
+- KPI explanation
+- Metric definition
+- Calculation logic
+- Evidence preview
+- Recommended investigation
+- Related actions
+
+This allows users to learn without leaving the current screen.
+
+Do not put essential information only inside hover tooltips.
+
+METRIC EXPLAINABILITY
+
+Every score or calculation must offer:
+
+"How is this calculated?"
+
+Opening it should show:
+
+- Formula
+- Definitions
+- Included records
+- Excluded records
+- Date range
+- Threshold
+- Source
+- Last refresh
+- Limitations
+
+For example, Gate OTIF should show:
+
+Gate OTIF =
+dispatch lines that passed both configured conditions
+divided by total eligible dispatch lines
+
+Also show the actual numerator and denominator.
+
+Do not show only the formula.
+
+ACTION LANGUAGE
+
+Replace vague links such as:
+
+- View more
+- Learn more
+- Explore
+- Open
+- Details
+
+With specific actions:
+
+- Review failed dispatches
+- Investigate inactive SKUs
+- View warehouse exceptions
+- Understand this calculation
+- Assign corrective action
+- Compare previous period
+- Export executive brief
+
+VISUAL SYSTEM
+
+Create a controlled industrial-analytics visual language.
+
+COLORS
+
+Base:
+- Deep graphite
+- Charcoal
+- Warm dark surfaces
+- Controlled off-white
+- Muted grey
+
+Primary interactive color:
+- Controlled green or teal
+
+Statuses:
+- Green: verified positive/target achieved
+- Amber: attention or investigation
+- Red: critical threshold breached
+- Blue/neutral: information
+- Grey: unavailable or incomplete
+
+Do not use status colors decoratively.
+
+Do not use red merely to increase attention.
+
+Do not place bright green on every CTA.
+
+TYPOGRAPHY
+
+Use a clean enterprise sans-serif.
+
+Hierarchy:
+
+- Page title
+- Executive value/metric
+- Section heading
+- Card title
+- Body
+- Metadata
+- Labels
+
+Use tabular numbers for KPI values where supported.
+
+Avoid excessive uppercase text.
+
+Use uppercase only for small classification labels.
+
+SPACING AND GEOMETRY
+
+Use:
+
+- 12-column desktop grid
+- 8-point spacing system
+- Consistent card padding
+- Repeated metric-card proportions
+- Predictable alignment
+- Strong vertical rhythm
+- Adequate whitespace
+- Restrained corner radii
+- Controlled borders
+- Minimal shadows
+
+Data density may be higher on analyst screens than executive screens.
+
+Do not apply the same density everywhere.
+
+GESTALT PRINCIPLES
+
+Use:
+
+Proximity:
+Group a KPI with its target, explanation and action.
+
+Similarity:
+Use consistent appearance for equivalent statuses and actions.
+
+Common region:
+Place related metrics inside clearly defined sections.
+
+Continuity:
+Guide the eye from signal to explanation to evidence.
+
+Figure-ground:
+Ensure critical priorities are distinct without making the whole screen alarming.
+
+Simplicity:
+Show the minimum needed at each decision level.
+
+Do not place unrelated metrics inside the same card merely to save space.
+
+CHART DESIGN RULES
+
+1. Every chart must answer a specific question.
+2. Every chart needs a written insight.
+3. Every chart must show the reporting period.
+4. Targets must be visually identifiable.
+5. Status colors must remain consistent.
+6. Do not use red and green as the only distinction.
+7. Use labels, patterns or markers for accessibility.
+8. Avoid unnecessary animations.
+9. Avoid 3D visualizations.
+10. Avoid truncated axes that exaggerate change.
+11. Show volume context beside percentage changes.
+12. Respect reduced-motion preferences.
+
+TABLE DESIGN RULES
+
+Tables must support:
+
+- Search
+- Filters
+- Sorting
+- Clear column labels
+- Sticky headers where useful
+- Row selection
+- Column visibility
+- Export
+- Empty state
+- Error state
+- Loading state
+- Pagination or virtualization for large datasets
+
+The most decision-relevant columns should appear first.
+
+Do not expose dozens of columns by default.
+
+Allow users to expand a row or open the detail drawer.
+
+FIRST-TIME ONBOARDING
+
+Create a restrained onboarding experience.
+
+First screen:
+
+"Welcome to Operationalyst"
+
+Explain:
+
+"Operationalyst helps manufacturing teams identify operational signals,
+understand why they occurred and investigate the supporting evidence."
+
+Onboarding steps:
+
+1. Select factory/unit
+2. Confirm reporting period
+3. Review data-source status
+4. Understand status colors
+5. Open Executive Overview
+6. Learn how to drill into evidence
+
+Allow onboarding to be skipped and reopened.
+
+Do not use a long mandatory tour.
+
+EMPTY STATES
+
+Every empty state must explain:
+
+- Why the area may be empty
+- Whether the state is positive or incomplete
+- What the user can do next
+
+Examples:
+
+"No critical delivery exceptions were found for the selected period."
+
+"No inventory data has been imported for this unit."
+
+"Data is available, but the selected filters returned no records."
+
+Do not use the same generic:
+"No data"
+
+LOADING STATES
+
+Use skeleton states aligned with the final layout.
+
+Show processing state for:
+
+- Imports
+- Analysis
+- Report generation
+- Large table loading
+- Scenario calculation
+
+Do not use indefinite spinning indicators without context.
+
+ERROR STATES
+
+Errors must explain:
+
+- What failed
+- Which data or function was affected
+- Whether existing data remains safe
+- What the user can try
+- Where to obtain help
+
+Do not expose raw technical stack traces to normal users.
+
+ACCESSIBILITY
+
+Implement:
+
+- Semantic HTML
+- Correct heading order
+- Keyboard navigation
+- Visible focus states
+- Accessible dialogs and drawers
+- Accessible form labels
+- Status text in addition to color
+- Chart summaries
+- Sufficient contrast
+- Reduced-motion support
+- Screen-reader labels
+- Accessible error messages
+- Minimum touch-target sizes
+
+RESPONSIVE DESIGN
+
+Desktop:
+- Full navigation
+- Multi-column executive cards
+- Detailed tables
+- Context drawer
+
+Tablet:
+- Collapsible navigation
+- Two-column cards
+- Simplified chart controls
+
+Mobile:
+- Single-column priority flow
+- Summary before detail
+- Horizontal table alternatives or cards
+- Sticky primary action only when contextually relevant
+- No tiny chart labels
+- No horizontal application scroll
+- No hidden critical warnings
+
+ROLE-BASED VIEWS
+
+Preserve existing roles or interfaces such as:
+
+- Executive
+- Dispatch Desk
+- Gate Kiosk
+
+Clarify the purpose of each.
+
+Executive:
+Decision-ready summary and investigation links.
+
+Dispatch Desk:
+Operational records, exceptions and dispatch actions.
+
+Gate Kiosk:
+Task-focused, touch-friendly gate verification.
+
+Do not show full executive analytics on the Gate Kiosk.
+
+SECURITY AND TRUST PRESENTATION
+
+Show:
+
+- Current organization/factory
+- Environment
+- User role
+- Last data refresh
+- Data source
+- Audit trail access where implemented
+
+Do not claim certifications or security controls that are not implemented.
+
+If security policy content is incomplete, display:
+"Policy details pending final implementation"
+
+Do not fabricate ISO, SOC 2 or industry compliance.
+
+BEHAVIORAL DESIGN
+
+Use behavioral principles ethically.
+
+Attention:
+Priorities before supporting detail.
+
+Cognitive fluency:
+Plain labels and predictable layouts.
+
+Choice architecture:
+One primary action per state.
+
+Progressive disclosure:
+Summary before calculations and records.
+
+Loss awareness:
+Show operational exposure carefully without exaggeration.
+
+Authority:
+Demonstrate methodology and explainability.
+
+Trust:
+Show data context, definitions and limitations.
+
+Commitment:
+Move users from review to investigation to action gradually.
+
+Do not use:
+
+- Fake urgency
+- Fake countdown timers
+- Fake customer activity
+- Confirm-shaming
+- Hidden defaults
+- Misleading progress indicators
+- Unsupported savings claims
+- Dark patterns
+
+CONFIGURATION
+
+Centralize:
+
+- Navigation labels
+- P1-P5 secondary labels
+- Targets
+- Thresholds
+- Status definitions
+- Demo/live environment labels
+- Organization/factory information
+- Reporting-period defaults
+- Feature flags
+- Empty-state content
+
+Do not hardcode these values across several components.
+
+ANALYTICS EVENTS
+
+Add named interaction events without including sensitive operational values.
+
+Examples:
+
+- executive_priority_opened
+- inventory_investigation_opened
+- delivery_failure_explanation_opened
+- metric_methodology_opened
+- evidence_records_opened
+- action_created
+- action_status_changed
+- import_started
+- import_validation_completed
+- report_exported
+- demo_environment_viewed
+
+Do not send SKU names, customer names, financial values or record-level details
+inside analytics event payloads.
+
+IMPLEMENTATION REQUIREMENTS
+
+1. Reuse the existing technology stack.
+2. Preserve current business logic.
+3. Preserve current routes or create redirects where necessary.
+4. Create reusable dashboard components.
+5. Create a reusable domain-page template.
+6. Create reusable KPI, priority, trend, evidence and action components.
+7. Preserve existing imports and exports.
+8. Preserve PDF and print functions.
+9. Preserve existing role-specific views.
+10. Do not replace live calculations with hardcoded values.
+11. Do not invent backend integrations.
+12. Do not invent customer data.
+13. Fix all build, lint and TypeScript errors introduced.
+14. Test desktop, tablet and mobile layouts.
+15. Test keyboard navigation and forms.
+16. Verify all drill-down links.
+17. Verify that filters affect the correct data.
+18. Verify that demo labels appear in exports where required.
+
+COMPONENTS TO CREATE OR REFACTOR
+
+Suggested components:
+
+- AppShell
+- SidebarNavigation
+- TopBar
+- EnvironmentBadge
+- FactorySelector
+- ReportingPeriodSelector
+- ExecutivePriorityCard
+- KPIStatusCard
+- InvestigationQueue
+- ExecutiveBrief
+- MetricExplanationDrawer
+- EvidenceTable
+- DomainOverview
+- TrendInsightCard
+- DataQualityBanner
+- MethodologyPanel
+- ActionPanel
+- EmptyState
+- LoadingState
+- ErrorState
+- DemoDataNotice
+- ReportHeader
+- MobileNavigation
+
+Use the existing project's naming conventions where appropriate.
+
+DELIVERY FORMAT
+
+After implementing the redesign, provide:
+
+1. Summary of the redesign
+2. Files changed
+3. Routes changed
+4. Components created
+5. P1-P5 navigation mapping
+6. Existing functionality preserved
+7. Calculation logic preserved
+8. Demo-data handling
+9. Accessibility work completed
+10. Responsive testing completed
+11. Errors fixed
+12. Remaining placeholders
+13. Backend work still required
+14. Screens or functions that could not be safely changed
+15. Preview of the completed application
+
+FINAL VERIFICATION CHECKLIST
+
+Before finishing, verify:
+
+- The default application page is Executive Overview.
+- The first viewport shows no more than three priorities.
+- P1-P5 codes are secondary, not primary navigation.
+- Executives can understand what requires attention.
+- Managers can see why it is happening.
+- Analysts can see records and calculations.
+- OTIF values show numerator and denominator.
+- Every score has an explanation path.
+- Every major issue has an investigation action.
+- Demo data is clearly labelled.
+- No fake customer proof has been created.
+- Actual, estimate, scenario and assumption values are visually distinct.
+- Existing calculations still work.
+- Imports still work.
+- Exports and reports still work.
+- Role-specific views still work.
+- Mobile navigation works.
+- Tables remain usable.
+- Accessibility requirements are met.
+- No dark patterns have been introduced.
+- The product appears controlled, precise and decision-oriented.
+- The dashboard does not feel like a collection of unrelated widgets.
+
+Now inspect the current Operationalyst project, implement the redesign in the
+existing files, run the application, resolve all errors and present the
+completed preview.
+
+Do not respond with another plan.
+
+Do not only describe the redesign.
+
+Modify the project and show the working result.

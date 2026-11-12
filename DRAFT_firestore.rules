@@ -1,0 +1,322 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // =========================================================================
+    // 0. GLOBAL DEFAULT-DENY SAFETY NET
+    // =========================================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // =========================================================================
+    // 1. HARDENED PRIMITIVE HELPERS
+    // =========================================================================
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isAdmin() {
+      return isVerifiedUser() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        request.auth.token.email == 'joneszz2004@gmail.com'
+      );
+    }
+
+    // Master Gate helper for subcollections under /plant_workspaces/{workspaceId}
+    function isWorkspaceOwner(workspaceId) {
+      return exists(/databases/$(database)/documents/plant_workspaces/$(workspaceId)) &&
+        get(/databases/$(database)/documents/plant_workspaces/$(workspaceId)).data.ownerId == request.auth.uid;
+    }
+
+    // =========================================================================
+    // 2. ENTITY VALIDATION BLUEPRINTS (ANTI-UPDATE-GAP)
+    // =========================================================================
+
+    function isValidUserPublicProfile(data, userId) {
+      return data.keys().hasAll(['uid', 'displayName', 'companyName', 'role', 'createdAt', 'updatedAt']) &&
+        data.keys().hasOnly(['uid', 'displayName', 'companyName', 'role', 'createdAt', 'updatedAt']) &&
+        data.uid is string && data.uid.size() >= 1 && data.uid.size() <= 128 && data.uid.matches('^[a-zA-Z0-9_\\-]+$') &&
+        data.uid == userId &&
+        data.uid == request.auth.uid &&
+        data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 120 &&
+        data.companyName is string && data.companyName.size() >= 1 && data.companyName.size() <= 160 &&
+        data.role is string && data.role.size() <= 32 && data.role in ['owner', 'ops_head', 'auditor', 'viewer'] &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp &&
+        data.updatedAt == request.time;
+    }
+
+    function isValidUserPrivateInfo(data, userId) {
+      return data.keys().hasAll(['uid', 'email', 'updatedAt']) &&
+        data.keys().hasOnly(['uid', 'email', 'phoneOrWhatsapp', 'plantLocation', 'updatedAt']) &&
+        data.uid is string && data.uid.size() >= 1 && data.uid.size() <= 128 && data.uid.matches('^[a-zA-Z0-9_\\-]+$') &&
+        data.uid == userId &&
+        data.uid == request.auth.uid &&
+        data.email is string && data.email.size() >= 3 && data.email.size() <= 180 &&
+        (!('phoneOrWhatsapp' in data) || (data.phoneOrWhatsapp is string && data.phoneOrWhatsapp.size() <= 40)) &&
+        (!('plantLocation' in data) || (data.plantLocation is string && data.plantLocation.size() <= 160)) &&
+        data.updatedAt is timestamp &&
+        data.updatedAt == request.time;
+    }
+
+    function isValidPilotRequest(data, leadId) {
+      return data.keys().hasAll([
+          'leadId', 'ownerId', 'fullName', 'companyName', 'plantLocation',
+          'erpSystem', 'status', 'diagnosticScore', 'createdAt', 'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'leadId', 'ownerId', 'fullName', 'companyName', 'plantLocation',
+          'erpSystem', 'status', 'diagnosticScore', 'createdAt', 'updatedAt'
+        ]) &&
+        data.leadId is string && data.leadId.size() >= 3 && data.leadId.size() <= 64 && data.leadId.matches('^[a-zA-Z0-9_\\-]+$') &&
+        data.leadId == leadId &&
+        data.ownerId is string && data.ownerId.size() >= 1 && data.ownerId.size() <= 128 && data.ownerId.matches('^[a-zA-Z0-9_\\-]+$') &&
+        data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 120 &&
+        data.companyName is string && data.companyName.size() >= 2 && data.companyName.size() <= 160 &&
+        data.plantLocation is string && data.plantLocation.size() >= 2 && data.plantLocation.size() <= 160 &&
+        data.erpSystem is string && data.erpSystem.size() >= 1 && data.erpSystem.size() <= 120 &&
+        data.status is string && data.status.size() <= 32 &&
+        data.status in ['NEW', 'SUITABILITY_REVIEW', 'NDA_SENT', 'APPROVED_FOR_UPLOAD', 'CLOSED'] &&
+        data.diagnosticScore is number && data.diagnosticScore >= 0 && data.diagnosticScore <= 100 &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp &&
+        data.updatedAt == request.time;
+    }
+
+    function isValidPlantWorkspace(data, workspaceId) {
+      return data.keys().hasAll([
+          'workspaceId', 'ownerId', 'plantId', 'plantName', 'skuCount',
+          'totalStockValueInr', 'nonMovingValueInr', 'otifPercent',
+          'freightLeakInr', 'binMatchPercent', 'status', 'createdAt', 'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'workspaceId', 'ownerId', 'plantId', 'plantName', 'skuCount',
+          'totalStockValueInr', 'nonMovingValueInr', 'otifPercent',
+          'freightLeakInr', 'binMatchPercent', 'status', 'createdAt', 'updatedAt'
+        ]) &&
+        data.workspaceId is string && data.workspaceId.size() >= 2 && data.workspaceId.size() <= 128 && data.workspaceId.matches('^[a-zA-Z0-9_\\-]+$') &&
+        data.workspaceId == workspaceId &&
+        data.ownerId is string && data.ownerId.size() >= 1 && data.ownerId.size() <= 128 && data.ownerId.matches('^[a-zA-Z0-9_\\-]+$') &&
+        data.plantId is string && data.plantId.size() <= 32 && data.plantId in ['ambattur', 'sriperumbudur', 'hosur'] &&
+        data.plantName is string && data.plantName.size() >= 2 && data.plantName.size() <= 160 &&
+        data.skuCount is number && data.skuCount >= 0 && data.skuCount <= 500000 &&
+        data.totalStockValueInr is number && data.totalStockValueInr >= 0 && data.totalStockValueInr <= 100000000000 &&
+        data.nonMovingValueInr is number && data.nonMovingValueInr >= 0 && data.nonMovingValueInr <= 100000000000 &&
+        data.otifPercent is number && data.otifPercent >= 0 && data.otifPercent <= 100 &&
+        data.freightLeakInr is number && data.freightLeakInr >= 0 && data.freightLeakInr <= 10000000000 &&
+        data.binMatchPercent is number && data.binMatchPercent >= 0 && data.binMatchPercent <= 100 &&
+        data.status is string && data.status.size() <= 32 && data.status in ['ACTIVE', 'LOCKED_FINAL'] &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp &&
+        data.updatedAt == request.time;
+    }
+
+    function isValidWorkspaceAuditNote(data, workspaceId, noteId) {
+      return data.keys().hasAll([
+          'noteId', 'workspaceId', 'authorId', 'pillar',
+          'summaryText', 'actionStatus', 'createdAt', 'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'noteId', 'workspaceId', 'authorId', 'pillar',
+          'summaryText', 'actionStatus', 'createdAt', 'updatedAt'
+        ]) &&
+        data.noteId is string && data.noteId.size() >= 2 && data.noteId.size() <= 64 && data.noteId.matches('^[a-zA-Z0-9_\\-]+$') &&
+        data.noteId == noteId &&
+        data.workspaceId is string && data.workspaceId.size() >= 2 && data.workspaceId.size() <= 128 && data.workspaceId.matches('^[a-zA-Z0-9_\\-]+$') &&
+        data.workspaceId == workspaceId &&
+        data.authorId is string && data.authorId.size() >= 1 && data.authorId.size() <= 128 && data.authorId.matches('^[a-zA-Z0-9_\\-]+$') &&
+        data.pillar is string && data.pillar.size() <= 32 &&
+        data.pillar in ['P1_INVENTORY', 'P2_OTIF', 'P3_FREIGHT', 'P4_WAREHOUSE', 'EXECUTIVE'] &&
+        data.summaryText is string && data.summaryText.size() >= 2 && data.summaryText.size() <= 500 &&
+        data.actionStatus is string && data.actionStatus.size() <= 32 &&
+        data.actionStatus in ['OPEN', 'IN_REVIEW', 'RESOLVED'] &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp &&
+        data.updatedAt == request.time;
+    }
+
+    // =========================================================================
+    // 3. COLLECTION RULES
+    // =========================================================================
+
+    // Collection: /users/{userId} (Public operational profile — non-PII)
+    match /users/{userId} {
+      allow get: if isSignedIn() && isValidId(userId) && (request.auth.uid == userId || isAdmin());
+      allow list: if false;
+
+      allow create: if isVerifiedUser() &&
+        isValidId(userId) &&
+        isValidUserPublicProfile(incoming(), userId) &&
+        incoming().createdAt == request.time;
+
+      allow update: if isVerifiedUser() &&
+        isValidId(userId) &&
+        isValidUserPublicProfile(incoming(), userId) &&
+        incoming().uid == existing().uid &&
+        incoming().createdAt == existing().createdAt && (
+          isAdmin() ||
+          (
+            request.auth.uid == userId &&
+            incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'companyName', 'role', 'updatedAt'])
+          )
+        );
+
+      allow delete: if isVerifiedUser() && isValidId(userId) && isAdmin();
+
+      // Subcollection: /users/{userId}/private/{docId} (Split-Collection PII Vault)
+      match /private/{docId} {
+        allow get: if isSignedIn() && isValidId(userId) && isValidId(docId) && (request.auth.uid == userId || isAdmin());
+        allow list: if false;
+
+        allow create: if isVerifiedUser() &&
+          isValidId(userId) &&
+          isValidId(docId) &&
+          request.auth.uid == userId &&
+          isValidUserPrivateInfo(incoming(), userId) &&
+          exists(/databases/$(database)/documents/users/$(userId));
+
+        allow update: if isVerifiedUser() &&
+          isValidId(userId) &&
+          isValidId(docId) &&
+          isValidUserPrivateInfo(incoming(), userId) &&
+          incoming().uid == existing().uid && (
+            isAdmin() ||
+            (
+              request.auth.uid == userId &&
+              incoming().diff(existing()).affectedKeys().hasOnly(['email', 'phoneOrWhatsapp', 'plantLocation', 'updatedAt'])
+            )
+          );
+
+        allow delete: if isVerifiedUser() && isValidId(userId) && isValidId(docId) && (request.auth.uid == userId || isAdmin());
+      }
+    }
+
+    // Collection: /pilot_requests/{leadId}
+    match /pilot_requests/{leadId} {
+      allow get: if isSignedIn() && isValidId(leadId) && (existing().ownerId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (existing().ownerId == request.auth.uid || isAdmin());
+
+      allow create: if isVerifiedUser() &&
+        isValidId(leadId) &&
+        isValidPilotRequest(incoming(), leadId) &&
+        incoming().ownerId == request.auth.uid &&
+        incoming().status == 'NEW' &&
+        incoming().createdAt == request.time;
+
+      allow update: if isVerifiedUser() &&
+        isValidId(leadId) &&
+        isValidPilotRequest(incoming(), leadId) &&
+        incoming().leadId == existing().leadId &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().createdAt == existing().createdAt && (
+          isAdmin() ||
+          (
+            existing().ownerId == request.auth.uid &&
+            existing().status != 'CLOSED' &&
+            incoming().diff(existing()).affectedKeys().hasOnly([
+              'fullName', 'companyName', 'plantLocation', 'erpSystem', 'diagnosticScore', 'updatedAt'
+            ])
+          )
+        );
+
+      allow delete: if isVerifiedUser() && isValidId(leadId) && isAdmin();
+    }
+
+    // Collection: /plant_workspaces/{workspaceId}
+    match /plant_workspaces/{workspaceId} {
+      allow get: if isSignedIn() && isValidId(workspaceId) && (existing().ownerId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (existing().ownerId == request.auth.uid || isAdmin());
+
+      allow create: if isVerifiedUser() &&
+        isValidId(workspaceId) &&
+        isValidPlantWorkspace(incoming(), workspaceId) &&
+        incoming().ownerId == request.auth.uid &&
+        incoming().status == 'ACTIVE' &&
+        incoming().createdAt == request.time;
+
+      allow update: if isVerifiedUser() &&
+        isValidId(workspaceId) &&
+        isValidPlantWorkspace(incoming(), workspaceId) &&
+        incoming().workspaceId == existing().workspaceId &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().plantId == existing().plantId &&
+        incoming().createdAt == existing().createdAt && (
+          isAdmin() ||
+          (
+            existing().ownerId == request.auth.uid &&
+            existing().status != 'LOCKED_FINAL' &&
+            (
+              // Action 1: Sync 4-Pillar KPI Metrics
+              incoming().diff(existing()).affectedKeys().hasOnly([
+                'plantName', 'skuCount', 'totalStockValueInr', 'nonMovingValueInr',
+                'otifPercent', 'freightLeakInr', 'binMatchPercent', 'updatedAt'
+              ]) ||
+              // Action 2: Lock Final Audit State
+              incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt'])
+            )
+          )
+        );
+
+      allow delete: if isVerifiedUser() && isValidId(workspaceId) && (existing().ownerId == request.auth.uid || isAdmin());
+
+      // Subcollection: /plant_workspaces/{workspaceId}/audit_notes/{noteId}
+      // Enforces Pillar 1: The Master Gate (Relational Sync with parent plant_workspaces document)
+      match /audit_notes/{noteId} {
+        allow get: if isSignedIn() && isValidId(workspaceId) && isValidId(noteId) && (isWorkspaceOwner(workspaceId) || isAdmin());
+        allow list: if isSignedIn() && (existing().authorId == request.auth.uid || isAdmin());
+
+        allow create: if isVerifiedUser() &&
+          isValidId(workspaceId) &&
+          isValidId(noteId) &&
+          isValidWorkspaceAuditNote(incoming(), workspaceId, noteId) &&
+          incoming().authorId == request.auth.uid &&
+          incoming().createdAt == request.time &&
+          (isWorkspaceOwner(workspaceId) || isAdmin());
+
+        allow update: if isVerifiedUser() &&
+          isValidId(workspaceId) &&
+          isValidId(noteId) &&
+          isValidWorkspaceAuditNote(incoming(), workspaceId, noteId) &&
+          incoming().noteId == existing().noteId &&
+          incoming().workspaceId == existing().workspaceId &&
+          incoming().authorId == existing().authorId &&
+          incoming().createdAt == existing().createdAt && (
+            isAdmin() ||
+            (
+              existing().authorId == request.auth.uid &&
+              existing().actionStatus != 'RESOLVED' &&
+              isWorkspaceOwner(workspaceId) &&
+              incoming().diff(existing()).affectedKeys().hasOnly(['summaryText', 'actionStatus', 'updatedAt'])
+            )
+          );
+
+        allow delete: if isVerifiedUser() && isValidId(workspaceId) && isValidId(noteId) && (isWorkspaceOwner(workspaceId) || isAdmin());
+      }
+    }
+
+    // Collection: /admins/{adminUid} (Read-only lookup table; never writable by clients)
+    match /admins/{adminUid} {
+      allow get: if isSignedIn() && isValidId(adminUid) && (request.auth.uid == adminUid || isAdmin());
+      allow list: if false;
+      allow create, update, delete: if false;
+    }
+  }
+}

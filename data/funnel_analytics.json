@@ -1,0 +1,285 @@
+[
+  {
+    "eventId": "FNLEVT-20261108-3540",
+    "timestamp": "2026-11-08T10:08:49.135Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-9A2B",
+    "timestamp": "2026-11-08T10:08:50.151Z",
+    "eventType": "SCROLL_DEPTH_50_PCT",
+    "metadata": {
+      "sourceSection": "scroll_50_pct"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-AC76",
+    "timestamp": "2026-11-08T10:08:50.589Z",
+    "eventType": "SCROLL_DEPTH_90_PCT",
+    "metadata": {
+      "sourceSection": "scroll_90_pct"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-C50C",
+    "timestamp": "2026-11-08T11:20:56.630Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-C675",
+    "timestamp": "2026-11-08T11:20:58.396Z",
+    "eventType": "SAMPLE_REPORT_CLICKED",
+    "metadata": {
+      "sourceSection": "dedicated_sample_audit_route"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-A7C0",
+    "timestamp": "2026-11-08T11:20:58.700Z",
+    "eventType": "AUDIT_MODAL_OPENED",
+    "metadata": {
+      "sourceSection": "sample_audit_sticky_cta"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-FF0E",
+    "timestamp": "2026-11-08T11:22:53.185Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-4828",
+    "timestamp": "2026-11-08T11:22:57.220Z",
+    "eventType": "SAMPLE_REPORT_CLICKED",
+    "metadata": {
+      "sourceSection": "dedicated_sample_audit_route"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-E299",
+    "timestamp": "2026-11-08T11:22:57.530Z",
+    "eventType": "AUDIT_MODAL_OPENED",
+    "metadata": {
+      "sourceSection": "sample_audit_sticky_cta"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-3C11",
+    "timestamp": "2026-11-08T11:22:57.610Z",
+    "eventType": "focus_company_field",
+    "metadata": {
+      "sourceSection": "sample_audit_sticky_cta",
+      "buyerPersona": "GENERAL",
+      "lastFieldTouched": "company_field"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-9FAC",
+    "timestamp": "2026-11-08T11:22:57.670Z",
+    "eventType": "abandoned_at_company_field",
+    "metadata": {
+      "sourceSection": "sample_audit_sticky_cta",
+      "buyerPersona": "GENERAL",
+      "lastFieldTouched": "company_field"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-EA32",
+    "timestamp": "2026-11-08T11:22:57.730Z",
+    "eventType": "AUDIT_MODAL_OPENED",
+    "metadata": {
+      "sourceSection": "sample_audit_sticky_cta"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-327C",
+    "timestamp": "2026-11-08T11:22:57.779Z",
+    "eventType": "focus_name_field",
+    "metadata": {
+      "sourceSection": "sample_audit_sticky_cta",
+      "buyerPersona": "GENERAL",
+      "lastFieldTouched": "name_field"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-9675",
+    "timestamp": "2026-11-08T11:22:57.819Z",
+    "eventType": "focus_company_field",
+    "metadata": {
+      "sourceSection": "sample_audit_sticky_cta",
+      "buyerPersona": "GENERAL",
+      "lastFieldTouched": "company_field"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-1229",
+    "timestamp": "2026-11-08T11:22:57.857Z",
+    "eventType": "focus_contact_field",
+    "metadata": {
+      "sourceSection": "sample_audit_sticky_cta",
+      "buyerPersona": "GENERAL",
+      "lastFieldTouched": "contact_field"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-7BF6",
+    "timestamp": "2026-11-08T11:22:57.961Z",
+    "eventType": "PILOT_AUDIT_SUBMITTED",
+    "metadata": {
+      "sourceSection": "sample_audit_sticky_cta",
+      "buyerPersona": "GENERAL"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261108-A190",
+    "timestamp": "2026-11-08T11:22:57.964Z",
+    "eventType": "DATA_KIT_DOWNLOADED",
+    "metadata": {
+      "sourceSection": "audit_modal_auto_download"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261109-3363",
+    "timestamp": "2026-11-09T04:33:55.661Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261109-CFBF",
+    "timestamp": "2026-11-09T04:33:56.737Z",
+    "eventType": "SCROLL_DEPTH_25_PCT",
+    "metadata": {
+      "sourceSection": "scroll_25_pct"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261109-5871",
+    "timestamp": "2026-11-09T04:33:56.858Z",
+    "eventType": "SCROLL_DEPTH_50_PCT",
+    "metadata": {
+      "sourceSection": "scroll_50_pct"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261109-8E6F",
+    "timestamp": "2026-11-09T04:33:57.712Z",
+    "eventType": "SAMPLE_REPORT_CLICKED",
+    "metadata": {
+      "sourceSection": "dedicated_sample_audit_route"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261109-770F",
+    "timestamp": "2026-11-09T05:05:59.426Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261109-C01A",
+    "timestamp": "2026-11-09T13:37:09.478Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261110-19A4",
+    "timestamp": "2026-11-10T04:47:22.488Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261110-2F51",
+    "timestamp": "2026-11-10T04:47:24.685Z",
+    "eventType": "SCROLL_DEPTH_25_PCT",
+    "metadata": {
+      "sourceSection": "scroll_25_pct"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261110-003F",
+    "timestamp": "2026-11-10T04:47:25.068Z",
+    "eventType": "SCROLL_DEPTH_50_PCT",
+    "metadata": {
+      "sourceSection": "scroll_50_pct"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261110-3629",
+    "timestamp": "2026-11-10T04:47:25.266Z",
+    "eventType": "SCROLL_DEPTH_75_PCT",
+    "metadata": {
+      "sourceSection": "scroll_75_pct"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261110-D393",
+    "timestamp": "2026-11-10T04:47:32.362Z",
+    "eventType": "SAMPLE_REPORT_CLICKED",
+    "metadata": {
+      "sourceSection": "dedicated_sample_audit_route"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261110-2D47",
+    "timestamp": "2026-11-10T04:51:13.617Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261110-77EF",
+    "timestamp": "2026-11-10T04:52:11.652Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261110-690A",
+    "timestamp": "2026-11-10T04:54:00.270Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261110-DC06",
+    "timestamp": "2026-11-10T07:07:20.111Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261112-22D2",
+    "timestamp": "2026-11-12T04:03:16.748Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  },
+  {
+    "eventId": "FNLEVT-20261112-903C",
+    "timestamp": "2026-11-12T04:07:16.691Z",
+    "eventType": "LANDING_PAGE_VIEW",
+    "metadata": {
+      "sourceSection": "landing_page_load"
+    }
+  }
+]

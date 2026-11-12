@@ -1,0 +1,85 @@
+[
+  {
+    "importRunId": "IMPRUN-20261107-B521",
+    "leadId": "PILOT-DEMO-SANDBOX",
+    "plantId": "ambattur",
+    "companyName": "Ambattur Precision Forge & Valves Pvt Ltd (Step-2 Demo Sandbox)",
+    "plantLocation": "Ambattur Industrial Estate, Chennai",
+    "datasetSha256": "6ca0c45823bd2b707a2352cd964435bdd3667ea9da06142e6e2cf1395e5e754e",
+    "anonymizationApplied": false,
+    "excludeReserveSpares": true,
+    "columnMappingUsed": {
+      "P1": {
+        "Part_ID": "Stock_Item_Code",
+        "Stock_Item_Code": "Part_ID",
+        "Part_Description": "Particulars",
+        "Particulars": "Part_Description",
+        "Category": "Stock_Group",
+        "Stock_Group": "Category",
+        "Closing_Stock_Qty": "Closing_Balance",
+        "Closing_Balance": "Closing_Stock_Qty",
+        "Unit_Cost_INR": "Std_Rate",
+        "Std_Rate": "Unit_Cost_INR",
+        "Last_Movement_Date": "Last_Voucher_Date",
+        "Last_Voucher_Date": "Last_Movement_Date",
+        "Is_Reserve_Spare": "Is_Reserve_Spare"
+      },
+      "P2": {
+        "Dispatch_ID": "Dispatch_ID",
+        "Customer_Name": "Customer_Name",
+        "PO_Number": "PO_Number",
+        "Part_Description": "Part_Description",
+        "Ordered_Qty": "Ordered_Qty",
+        "Dispatched_Qty": "Dispatched_Qty",
+        "Promised_Date": "Promised_Date",
+        "Dispatch_Date": "Dispatch_Date",
+        "Delay_Reason": "Delay_Reason"
+      },
+      "P3": {
+        "LR_Number": "LR_Number",
+        "Transporter": "Transporter",
+        "Weight_Ton": "Weight_Ton",
+        "Distance_Km": "Distance_Km",
+        "Contract_Rate_INR": "Contract_Rate_INR",
+        "Billed_Amount_INR": "Billed_Amount_INR",
+        "Detention_INR": "Detention_INR",
+        "Advance_Paid_INR": "Advance_Paid_INR",
+        "Trip_Date": "Trip_Date",
+        "Lane": "Lane"
+      },
+      "P4": {
+        "Bin_ID": "Bin_ID",
+        "Part_ID": "Part_ID",
+        "Part_Description": "Part_Description",
+        "Book_Qty": "Book_Qty",
+        "Physical_Count_Qty": "Physical_Count_Qty",
+        "Unit_Cost_INR": "Unit_Cost_INR"
+      }
+    },
+    "p1Quality": {
+      "totalSubmitted": 22,
+      "validAccepted": 18,
+      "quarantinedRejected": 4,
+      "reserveSparesCount": 2,
+      "reserveSparesValueINR": 112500
+    },
+    "p2Quality": {
+      "totalSubmitted": 3,
+      "validAccepted": 3,
+      "quarantinedRejected": 0
+    },
+    "p3Quality": {
+      "totalSubmitted": 2,
+      "validAccepted": 2,
+      "quarantinedRejected": 0
+    },
+    "p4Quality": {
+      "totalSubmitted": 2,
+      "validAccepted": 2,
+      "quarantinedRejected": 0
+    },
+    "generatedWorkspaceId": "AUDIT-20261107-9A52",
+    "generatedWalkthroughUrl": "?view=pilot-walkthrough&workspaceId=AUDIT-20261107-9A52&token=764437b58fa333f5b2cf56d8",
+    "createdAt": "2026-11-07T10:44:03.601Z"
+  }
+]
