@@ -1,0 +1,42 @@
+{
+  "general": {
+    "checkpointing": {
+      "enabled": true
+    }
+  },
+  "tools": {
+    "shell": {
+      "enableInteractiveShell": true
+    }
+  },
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "write_file|replace",
+        "sequential": true,
+        "hooks": [
+          {
+            "name": "quant-backtest-gate",
+            "type": "command",
+            "command": "python3 .gemini/hooks/quant_audit_gate.py",
+            "timeout": 15000,
+            "description": "Blocks look-ahead .shift(-N) leaks and float() currency math"
+          }
+        ]
+      }
+    ],
+    "AfterAgent": [
+      {
+        "hooks": [
+          {
+            "name": "quant-completeness-gate",
+            "type": "command",
+            "command": "python3 .gemini/hooks/quant_audit_gate.py",
+            "timeout": 15000,
+            "description": "Forces retry if output leaves TODO/TBD placeholders"
+          }
+        ]
+      }
+    ]
+  }
+}
