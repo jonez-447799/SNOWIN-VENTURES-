@@ -1,0 +1,10 @@
+description = "Inspect tick/OHLCV dataset schema and run a zero-lookahead LOB/CVD backtest"
+prompt = """
+Inspect the market dataset `{{args}}` (header and row count below):
+!{head -n 15 {{args}} && wc -l {{args}}}
+
+Run or generate a deterministic Python backtest evaluating Order Book Imbalance / Cumulative Volume Delta (CVD) signals:
+1. Enforce strict chronological splits with zero `.shift(-N)` look-ahead leakage.
+2. Deduct realistic Indian exchange brokerage, STT, GST, and bid-ask slippage using exact Decimal treasury math.
+3. Output net PnL, Max Drawdown, Win Rate, Profit Factor, and tail-risk VaR (95% / 99%).
+"""
